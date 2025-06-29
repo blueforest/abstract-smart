@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 
+
 interface WalletState {
   account: string | null;
   balance: string | null;

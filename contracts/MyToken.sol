@@ -26,8 +26,8 @@ contract MyToken is
      */
     string private _baseTokenURI;
     uint256 private _nextTokenId = 1;
-    uint256 private _price = 0.001 ether;
-    uint256 private _maxSupply = 9;
+    uint256 public constant _price = 0.001 ether;
+    uint256 public constant _maxSupply = 9;
 
     // modifier onlyWhenNotPause() {
     //     require(!paused(), "Contract is paused");
