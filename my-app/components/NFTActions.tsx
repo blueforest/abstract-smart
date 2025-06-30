@@ -1,11 +1,16 @@
+"use client"
+import { useMintNFT } from "@/hooks/useMintNFT";
+import { usePauseNFT } from "@/hooks/usePauseNFT";
 export default function NFTActions() {
+  const { mintNFT } = useMintNFT();
+  // const { pauseNFT, unpauseNFT } = usePauseNFT();
   return   <section className="bg-white p-6 rounded-2xl shadow-md space-y-6">
     <h2 className="text-xl font-bold">⚙️ 功能操作</h2>
 
     
     <div>
       <h3 className="font-semibold mb-1">🆕 Mint NFT</h3>
-      <button className="bg-green-500 text-white px-4 py-2 rounded" >Mint 1 NFT</button>
+      <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={mintNFT} >Mint 1 NFT</button>
     </div>
 
   

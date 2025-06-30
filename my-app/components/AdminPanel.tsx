@@ -3,9 +3,12 @@ import { usePauseNFT } from "@/hooks/usePauseNFT";
 import { useContract } from "@/hooks/useContract";
 export default function AdminPanel() {
   const { pauseNFT, unpauseNFT } = usePauseNFT();
-  const { contractPaused } = useContract();
+  const { contractPaused,isOwner } = useContract();
   const withdraw = async () => {
   };
+  if (!isOwner) {
+    return null;
+  }
   return   <section className="bg-yellow-50 p-6 rounded-2xl shadow-md mt-6">
     <h2 className="text-xl font-bold mb-4">🔐 管理员功能</h2>
     <div className="space-x-2">

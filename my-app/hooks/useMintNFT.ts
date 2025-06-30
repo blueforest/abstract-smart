@@ -1,14 +1,20 @@
+import { ethers } from "ethers";
 import { useContract } from './useContract';
-import { useState,useEffect } from 'react';
+import { useWallet } from './useWallet';
+import { useItemTrigger } from '@/context/ItemTriggerContext';
 export const useMintNFT = () => {
   const { contract,
      contractMaxSupply,
       contractPrice,
       contractTotalSupply,
-      contractPaused
+      contractPaused,
+      isOwner,
+      provider
      } = useContract();
+  const { incrementTrigger } = useItemTrigger();
+  const { account } = useWallet();
   const  mintNFT = async () => {
-    if (!contract) {
+    if (!contract || !provider) {
       return;
     }
     if (contractMaxSupply === 0) {
@@ -23,8 +29,28 @@ export const useMintNFT = () => {
       throw new Error('合约已暂停');
       // return;
     }
-    const tx = await contract.safeMint();
-    console.log('tx', tx);
+    if (!contractPrice) {
+      throw new Error('合约价格未设置');
+    }
+    if (isOwner) {
+      const tx = await contract.safeMint({
+        value: ethers.parseEther((Number(contractPrice) * 1.1).toString())
+      });
+      console.log('tx', tx);
+      incrementTrigger();
+    } else {
+      if (!account) {
+        throw new Error('请先连接钱包');
+      }
+      const signer = await provider.getSigner(account);
+      const tx = await contract.connect(signer).safeMint({
+        value: ethers.parseEther((Number(contractPrice) * 1.1).toString())
+      });
+      console.log('tx', tx);
+      incrementTrigger();
+    }
   };
-  
+  return {
+    mintNFT
+  }
 };
