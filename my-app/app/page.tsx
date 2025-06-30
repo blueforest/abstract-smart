@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <main className="container mx-auto p-4">
       <ContractInfo />
-      <NFTActions />
       <MyNFTGallery />
+      <NFTActions />
       <AdminPanel />
     </main>
   );

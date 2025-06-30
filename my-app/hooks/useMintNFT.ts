@@ -1,18 +1,30 @@
 import { useContract } from './useContract';
 import { useState,useEffect } from 'react';
 export const useMintNFT = () => {
-  const { contract } = useContract();
-  const [minting, setMinting] = useState(false);
-  const [minted, setMinted] = useState(false);
-  const [mintPrice, setMintPrice] = useState(0);
-  const [maxSupply, setMaxSupply] = useState(0);
-  const [totalSupply, setTotalSupply] = useState(0);
-  useEffect(() => {
-    if (contract) {
-      contract.safeMint().then(setMintPrice);
-      contract.maxSupply().then(setMaxSupply);
-      contract.totalSupply().then(setTotalSupply);
+  const { contract,
+     contractMaxSupply,
+      contractPrice,
+      contractTotalSupply,
+      contractPaused
+     } = useContract();
+  const  mintNFT = async () => {
+    if (!contract) {
+      return;
     }
-  }, [contract]);
+    if (contractMaxSupply === 0) {
+      throw new Error('合约最大铸造数量为0');
+      // return;
+    }
+    if (contractTotalSupply >= contractMaxSupply) {
+      throw new Error('铸造数量超过最大铸造数量');
+      // return;
+    }
+    if (contractPaused) {
+      throw new Error('合约已暂停');
+      // return;
+    }
+    const tx = await contract.safeMint();
+    console.log('tx', tx);
+  };
   
 };

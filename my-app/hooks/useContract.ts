@@ -10,8 +10,10 @@ const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
 
 export const useContract = () => {
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const [contractMaxSupply, setContractMaxSupply] = useState<number | null>(null);
+  const [contractMaxSupply, setContractMaxSupply] = useState<number>(0);
   const [contractPrice, setContractPrice] = useState<string | null>(null);
+  const [contractTotalSupply, setContractTotalSupply] = useState<number>(0);
+  const [contractPaused, setContractPaused] = useState<boolean>(false);
   useEffect(() => {
     const initContract = async () => {
       if (!contractAddress || !rpcUrl) {
@@ -27,6 +29,12 @@ export const useContract = () => {
       setContractMaxSupply(Number(suply));
       const price = await contract._price();
       setContractPrice(ethers.formatEther(price));
+      // 获取当前已铸造的数量
+      const totalSupply = await contract.totalSupply();
+      setContractTotalSupply(Number(totalSupply));
+      // 获取当前是否暂停
+      const paused = await contract.paused();
+      setContractPaused(paused);
     };
     initContract();
   }, []);
@@ -35,7 +43,9 @@ export const useContract = () => {
     contract,
     contractAddress,
     contractMaxSupply,
-    contractPrice
+    contractPrice,
+    contractTotalSupply,
+    contractPaused
    };
 };
 
