@@ -168,6 +168,42 @@ describe("MyToken", function () {
       await expect(ownerBalanceAfter).to.greaterThanOrEqual(ownerBalanceStart + ethers.parseEther("0.05") - BigInt(gasUsed));
       // await expect(balance).to.equal(0.06);
     });
+
+    it("should hasPermission success",async()=>{
+      const ethersUser0 = await ethers.getSigner(user0);
+      const tx2 = await myTokenContract.connect(ethersUser0).safeMint({value: ethers.parseEther("0.01")});
+      await tx2.wait();
+      
+      const tokenURI = await myTokenContract.hasPermission(user0,1);
+      await expect(tokenURI).to.equal(true);
+
+      const tx3 = await myTokenContract.connect(ethersUser0).approve(_user2,1);
+      await tx3.wait();
+
+      const tokenURI1 = await myTokenContract.hasPermission(_user2,1);
+      await expect(tokenURI1).to.equal(true);
+
+    })
+
+
+    it("ApprovedForAll should hasPermission success",async()=>{
+      const ethersUser0 = await ethers.getSigner(user0);
+      const tx = await myTokenContract.connect(ethersUser0)
+      .safeMint({value: ethers.parseEther("0.01")});
+      await tx.wait();
+      
+      const tx2 = await myTokenContract.connect(ethersUser0)
+      .safeMint({value: ethers.parseEther("0.01")});
+      await tx2.wait();
+
+      const tx3 = await myTokenContract.connect(ethersUser0)
+      .setApprovalForAll(_user2,true);
+      await tx3.wait();
+
+      const tokenURI1 = await myTokenContract.hasPermission(_user2,2);
+      await expect(tokenURI1).to.equal(true);
+
+    })
     
     
 

@@ -56,6 +56,9 @@ contract MyToken is
         require(_nextTokenId <= _maxSupply, "Max supply reached");
         require(msg.value >= _price, "Insufficient balance");
         uint256 tokenId = _nextTokenId++;
+        // msg.sender 是一个全局变量，代表当前调用合约函数的账户地址
+        // 在这里 msg.sender 是调用 safeMint() 函数的用户地址
+        // 当用户调用 safeMint() 时，他们的以太坊地址就会被记录为 msg.sender
         _safeMint(msg.sender, tokenId);
         string memory uri = string(
             abi.encodePacked(_baseTokenURI, tokenId.toString(), ".json")
@@ -127,5 +130,15 @@ contract MyToken is
         uint256 amount = address(this).balance;
         (bool sent, ) = _owner.call{value: amount}("");
         require(sent, "Failed to send Ether");
+    }
+
+    function hasPermission(
+        address spender,
+        uint256 tokenId
+    ) external view returns (bool) {
+        address owner = ownerOf(tokenId);
+        return (spender == owner ||
+            isApprovedForAll(owner, spender) ||
+            getApproved(tokenId) == spender);
     }
 }
