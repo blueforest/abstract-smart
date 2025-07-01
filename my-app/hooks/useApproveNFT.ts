@@ -14,14 +14,14 @@ export const useApproveNFT = () => {
     if (!account) {
       throw new Error('请先连接钱包');
     }
-    const _nftGallery = nftGallery.map((item: any) => Number(item));
-    if (!_nftGallery.includes(tokenId)) {
-      throw new Error('当前账户没有该NFT');
-    }
+    // const _nftGallery = nftGallery.map((item: any) => Number(item));
+    // if (!_nftGallery.includes(tokenId)) {
+    //   throw new Error('当前账户没有该NFT');
+    // }
     const signer = await provider?.getSigner(account);
     if (signer) {
       const tx = await contract.connect(signer)
-      .approve(account, tokenId);
+      .approve(to, tokenId);
       incrementTrigger();
       return tx;
     }

@@ -82,14 +82,26 @@ describe("MyToken", function () {
 
     it("should approve success",async()=>{
       const ethersUser0 = await ethers.getSigner(user0);
-      const tx2 = await myTokenContract.connect(ethersUser0).safeMint({value: ethers.parseEther("0.01")});
+      const tx2 = await myTokenContract.connect(ethersUser0)
+      .safeMint({value: ethers.parseEther("0.01")});
       await tx2.wait();
 
-      const tx3 = await myTokenContract.connect(ethersUser0).approve(_user2,1);
+      const tx3 = await myTokenContract.connect(ethersUser0)
+      .approve(_user2,1);
       await tx3.wait();
 
       const tokenURI = await myTokenContract.getApproved(1);
       await expect(tokenURI).to.equal(_user2);
+
+      const ethersUser2 = await ethers.getSigner(_user2);
+      const tx4 = await myTokenContract.connect(ethersUser2)
+      .safeTransferFrom(user0,owner,1);
+      await tx4.wait();
+
+      const tokenURI2 = await myTokenContract.balanceOf(owner);
+      await expect(tokenURI2).to.equal(1);
+      
+      
     });
 
     it("should burn success",async()=>{

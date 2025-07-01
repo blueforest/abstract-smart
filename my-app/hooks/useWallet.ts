@@ -35,7 +35,12 @@ export const useWallet = () => {
   // 获取当前账户信息
   const getAccountInfo = useCallback(async (provider: ethers.BrowserProvider) => {
     try {
-      const accounts = await provider.send('eth_accounts', []);
+      const _accounts = await provider.send('eth_accounts', []);
+      // MetaMask returns checksummed addresses (mixed case)
+      // but some methods like eth_accounts return lowercase addresses
+      // We can use ethers.getAddress() to convert to checksummed format
+      const checksummedAccounts = _accounts.map((acc: string) => ethers.getAddress(acc));
+      let accounts = checksummedAccounts;
       console.log(accounts)
       if (accounts.length > 0) {
         const account = accounts[0];
