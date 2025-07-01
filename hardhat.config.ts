@@ -4,6 +4,8 @@ import "hardhat-deploy";
 // solidity-coverage 用于测试覆盖率
 // 在命令行工具中运行：npx hardhat coverage
 import "solidity-coverage";
+import "dotenv/config";
+
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
   namedAccounts: {
@@ -23,6 +25,10 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       chainId: 31337,
+    },
+    sepolia: {
+      url: process.env.ALCHEMY_API_KEY_URL,
+      accounts: [process.env.PRIVATE_KEY!],
     },
   },
   // gasReporter 是否在命令行工具显示gas使用情况

@@ -132,13 +132,9 @@ contract MyToken is
         require(sent, "Failed to send Ether");
     }
 
-    function hasPermission(
-        address spender,
-        uint256 tokenId
-    ) external view returns (bool) {
-        address owner = ownerOf(tokenId);
-        return (spender == owner ||
-            isApprovedForAll(owner, spender) ||
-            getApproved(tokenId) == spender);
-    }
+    // receive 接收 ETH，且 msg.data 为空
+    receive() external payable {}
+
+    // 调用不存在的函数或 msg.data 不为空时调用
+    fallback() external payable {}
 }

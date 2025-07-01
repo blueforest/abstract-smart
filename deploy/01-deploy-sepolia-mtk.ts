@@ -13,7 +13,8 @@ async function deployMyToken({
   // from参数指定了部署合约的账户地址
   // 这里使用deployer账户作为部署者
   // deployer是通过getNamedAccounts()获取的默认部署账户
-  const tokenURI = process.env.TOKEN_URI;
+  const tokenURI =
+    "ipfs://bafybeieobobkdrxjywhkinpsmwskpnmaz4i4polnl7ck6cofrxzb2sqeu1";
   const myToken = await deploy("MyToken", {
     from: deployer,
     args: [tokenURI],
@@ -24,5 +25,5 @@ async function deployMyToken({
 }
 
 export default deployMyToken;
-// npx hardhat deploy --tags sepolia-MTK --network sepolia
-deployMyToken.tags = ["sepolia-MTK"];
+// npx hardhat deploy --tags MyToken --network hardhat
+deployMyToken.tags = ["MyToken"];
