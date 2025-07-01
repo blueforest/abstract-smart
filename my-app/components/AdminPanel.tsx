@@ -1,11 +1,11 @@
 "use client";
 import { usePauseNFT } from "@/hooks/usePauseNFT";
 import { useContract } from "@/hooks/useContract";
+import { useWithDraw } from "@/hooks/useWithDraw";
 export default function AdminPanel() {
   const { pauseNFT, unpauseNFT } = usePauseNFT();
   const { contractPaused,isOwner } = useContract();
-  const withdraw = async () => {
-  };
+  const { withDraw } = useWithDraw();
   if (!isOwner) {
     return null;
   }
@@ -14,7 +14,7 @@ export default function AdminPanel() {
     <div className="space-x-2">
       <button className="bg-yellow-500 text-white px-4 py-2 rounded" onClick={pauseNFT}>⏸ 暂停合约</button>
       <button className="bg-green-600 text-white px-4 py-2 rounded" onClick={unpauseNFT}>▶️ 恢复合约</button>
-      <button className="bg-gray-700 text-white px-4 py-2 rounded" onClick={withdraw}>💰 提现</button>
+      <button className="bg-gray-700 text-white px-4 py-2 rounded" onClick={withDraw}>💰 提现</button>
     </div>
   </section>;
 }
