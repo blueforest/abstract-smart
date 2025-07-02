@@ -43,7 +43,7 @@ export const useMintNFT = () => {
         throw new Error('请先连接钱包');
       }
       const signer = await provider.getSigner(account);
-      const tx = await contract.connect(signer).safeMint({
+      const tx = await (contract as any).connect(signer).safeMint({
         value: ethers.parseEther((Number(contractPrice) * 1.1).toString())
       });
       console.log('tx', tx);

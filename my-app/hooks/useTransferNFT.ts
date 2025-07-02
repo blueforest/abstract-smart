@@ -37,7 +37,7 @@ export const useTransferNFT = () => {
           throw new Error('当前账户没有权限');
           return
         }
-        const tx = await contract.connect(signer)
+        const tx = await (contract as any).connect(signer)
         .safeTransferFrom(account, to, tokenId);
         incrementTrigger();
         return tx;
@@ -46,7 +46,7 @@ export const useTransferNFT = () => {
         if(approvedAddress !== account){
           throw new Error('当前账户没有权限');
         }
-        const tx = await contract.connect(signer)
+        const tx = await (contract as any).connect(signer)
         .safeTransferFrom(ownerAddress, to, tokenId);
         incrementTrigger();
         return tx;

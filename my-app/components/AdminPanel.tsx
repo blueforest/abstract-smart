@@ -4,7 +4,7 @@ import { useContract } from "@/hooks/useContract";
 import { useWithDraw } from "@/hooks/useWithDraw";
 export default function AdminPanel() {
   const { pauseNFT, unpauseNFT } = usePauseNFT();
-  const { contractPaused,isOwner } = useContract();
+  const { isOwner } = useContract();
   const { withDraw } = useWithDraw();
   if (!isOwner) {
     return null;

@@ -21,7 +21,7 @@ export const useWithDraw = () => {
     if(!isOwner){
       throw new Error('当前账户没有权限');
     }
-    const tx = await contract.connect(signer).withdraw();
+    const tx = await (contract as any).connect(signer).withdraw();
     incrementTrigger();
     return tx;
   };

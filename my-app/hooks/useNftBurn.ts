@@ -20,7 +20,7 @@ export const useNftBurn = () => {
       throw new Error('当前账户没有该NFT');
     }
     if(signer){
-      const tx = await contract.connect(signer).burn(tokenId);
+      const tx = await (contract as any).connect(signer).burn(tokenId);
       incrementTrigger();
       return tx;
     }

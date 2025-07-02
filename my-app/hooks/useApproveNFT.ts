@@ -20,7 +20,7 @@ export const useApproveNFT = () => {
     // }
     const signer = await provider?.getSigner(account);
     if (signer) {
-      const tx = await contract.connect(signer)
+      const tx = await (contract as any).connect(signer)
       .approve(to, tokenId);
       incrementTrigger();
       return tx;

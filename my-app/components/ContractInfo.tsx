@@ -5,7 +5,6 @@ import { useWallet } from '@/hooks/useWallet';
 
 export default function ContractInfo() {
   const {
-    contract, 
     contractAddress,
      contractMaxSupply,
      contractPrice,
